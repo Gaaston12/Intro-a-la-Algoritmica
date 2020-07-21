@@ -1,0 +1,32 @@
+program semaforo;
+var
+color: string;
+
+procedure semaforo(var color: string;);
+	writeln ('Ingrese el color');
+	readln (color);
+end;
+
+function resultado(var color: string;); string;
+
+	if (color=rojo)
+	then 
+	resultado:= 'Alto'
+		else
+			if (color=amarillo)
+			then 
+				resultado:='Precaucion'
+			else
+				if (color=verde)
+				then
+					resultado:='Adelante'
+				end;
+			end;
+	end;
+end;
+
+begin 
+
+semaforo(color)
+writeln(resultado(color))
+end.

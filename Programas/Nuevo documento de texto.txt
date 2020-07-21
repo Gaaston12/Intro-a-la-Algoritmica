@@ -1,0 +1,140 @@
+program laruleta;
+ uses
+    crt;
+  const
+     numeros : array[0..36] of integer = (
+     0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,
+     24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26);
+ 
+   var
+    fin  : boolean;
+    tec, tecla : char;
+    nu, px, py : integer;
+ 
+   procedure cargaruleta;
+   var
+     x, y, i : integer;
+     begin
+        x := 19;
+        y := 5;
+        gotoxy(x,y);write(numeros[0]);
+        x := 23;
+        for i := 1 to 36 do
+        begin
+           gotoxy(x,y);write(numeros[i]);
+           x := x + 4;
+           if x > 23 + 20 then
+           begin
+              x := 23;
+              y := y + 1;
+           end;
+        end;
+     end;
+ 
+   procedure giraruleta;
+   var
+     i, p, xx, yy, g : integer;
+     sal : boolean;
+    begin
+       p := 1;
+       randomize;
+       nu := random(36);
+       gotoxy(22,3);write('----- Ruleta Girando -----');
+    repeat
+        xx := 19;
+        yy := 5;
+        TextBackground(2);
+        textcolor(4);
+        gotoxy(xx,yy);write(numeros[0]);
+        delay(120);
+        TextBackground(0);
+        textcolor(15);
+        gotoxy(xx,yy);write(numeros[0]);
+        xx := 23;
+        for i := 1 to 36 do
+        begin
+           TextBackground(2);
+           textcolor(4);
+           gotoxy(xx,yy);write(numeros[i]);
+           delay(120);
+           TextBackground(0);
+           textcolor(15);
+           gotoxy(xx,yy);write(numeros[i]);
+           xx := xx + 4;
+           if xx > 23 + 20 then
+           begin
+              xx := 23;
+              yy := yy + 1;
+           end;
+        end;
+        p := p + 1;
+     until p > 4;
+     gotoxy(22,3);clreol;
+     TextBackground(0);
+     textcolor(15);
+        xx := 19;
+        yy := 5;
+        gotoxy(xx,yy);
+        if nu = numeros[0] then
+        sal := true
+      else
+        sal := false;
+     if sal = false then
+     begin
+        xx := 23;
+        for i := 1 to 36 do
+        begin
+           gotoxy(xx,yy);
+           if numeros[i] = nu then
+           begin
+              px := xx;
+              py := yy;
+              break;
+           end;
+           xx := xx + 4;
+           if xx > 23 + 20 then
+           begin
+              xx := 23;
+              yy := yy + 1;
+           end;
+        end;
+      end;
+          TextBackground(3);
+          textcolor(4);
+          gotoxy(px,py);write(nu);
+          TextBackground(0);
+          textcolor(15);
+          gotoxy(20,24);write(' #### El Numero Es #### [ ',nu,' ]');
+    end;
+ 
+ 
+ 
+   begin
+      clrscr;
+      writeln('   ****** Inicio Juego De Ruleta ******');
+      writeln('   <<<<<< [S]Si     Elije    [N]No >>>>>>>>');
+      repeat
+          tec := upcase(readkey);
+      until tec in['S','N'];
+   if tec = 'S' then
+   begin
+      clrscr;
+      textcolor(15);
+      cargaruleta;
+      fin := false;
+   repeat
+      giraruleta;
+      gotoxy(10,20);write('[S] Final                     [N] Nuevo ');
+      repeat
+          tecla := upcase(readkey);
+      until tecla in['S','N'];
+      gotoxy(10,20);clreol;
+      gotoxy(20,24);clreol;
+      TextBackground(0);
+      textcolor(15);
+      gotoxy(px,py);write(nu);
+      if tecla = 'S' then
+      fin := true;
+  until fin = true;
+  end;
+   end.
